@@ -10,21 +10,21 @@ sock.listen()
 Clients=[]
 nick_names=[]
 
-def handle_client(conn,nick):
+def Handle(conn,nick):
     while True:
         try:
             msg=conn.recv(1024).decode()
             if msg:
-                SharingMessages(msg) 
+                Broadcast(msg) 
         except:
             Clients.remove(conn)
             nick_names.remove(nick)
             print(f"Error: {nick} disconnected")
-            SharingMessages(F'{nick} : Left the chat room')
+            Broadcast(F'{nick} : Left the chat room')
             conn.close()
             break
 
-def SharingMessages(msg):
+def Broadcast(msg):
     for client in Clients:
         try:
             client.send(msg.encode())
@@ -32,7 +32,7 @@ def SharingMessages(msg):
             Clients.remove(client)
 
 
-def accept_clients():
+def Receive():
     while True:
         conn,add=sock.accept()
         print(f"New connection from {add}")
@@ -44,14 +44,11 @@ def accept_clients():
         nick_names.append(nick_name)
 
         print(f"Nickname of client is {nick_name}")
-        SharingMessages(F"{nick_name} : join in chat room")
+        Broadcast(F"{nick_name} : join in chat room")
 
-        thread=threading.Thread(target=handle_client,args=(conn,nick_name))
+        thread=threading.Thread(target=Handle,args=(conn,nick_name))
         thread.start()
 
 
 print("Server is running...")
-accept_clients()
-
-
-
+Receive()

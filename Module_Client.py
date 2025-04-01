@@ -1,18 +1,10 @@
 import threading
 import socket
 
-# nickname=''
-
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = socket.gethostname()
 port = 13579
 server_add = (host, port)
-
-# try:
-#     sock.connect(server_add)
-# except:
-#     print("Unable to connect to the server.")
-#     exit()
 
 def Receive(nickname):
     while True:
@@ -26,6 +18,7 @@ def Receive(nickname):
             print("Connection lost. Exiting...")
             sock.close()
             break
+
 
 def Write(nickname):
     while True:
@@ -42,19 +35,14 @@ def Write(nickname):
             sock.close()
             break
 
+
 def thread_Receive(Function_Name,Args):
     thread = threading.Thread(target=Function_Name, daemon=True,args=(Args,))  
     thread.start()
-    
+
+
 def thread_Write(Function_Name,Args):
     thread = threading.Thread(target=Function_Name, daemon=True,args=(Args,))  
     thread.start()
     thread.join()
 
-
-
-
-# thread_Write = threading.Thread(target=Write, daemon=True)
-# thread_Write.start()
-
-# thread_Write.join()
