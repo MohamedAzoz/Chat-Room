@@ -14,24 +14,25 @@ def Receive(nickname):
                 sock.send(nickname.encode())
             else:
                 print(msg)
-        except:
-            print("Connection lost. Exiting...")
+        except Exception as e:
+            print(f"Error in Receiving the message : {e}" )
             sock.close()
             break
 
 
-def Write(nickname):
+# def Write(nickname):
+def Write():
     while True:
         try:
-            msg = input("")
+            msg = input("==> ")
             if msg.lower() == "exit":  
                 sock.close()
                 print("Disconnected from chat.")
                 break
-            msg =  nickname+" : "+msg
+            # msg =  nickname+" : "+msg
             sock.send(msg.encode())
-        except:
-            print("Error in sending message.")
+        except Exception as e:
+            print(f"Error in sending message : {e}")
             sock.close()
             break
 
@@ -41,8 +42,8 @@ def thread_Receive(Function_Name,Args):
     thread.start()
 
 
-def thread_Write(Function_Name,Args):
-    thread = threading.Thread(target=Function_Name, daemon=True,args=(Args,))  
+def thread_Write(Function_Name):
+    thread = threading.Thread(target=Function_Name, daemon=True)  
     thread.start()
     thread.join()
 

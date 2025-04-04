@@ -10,18 +10,25 @@ sock.listen()
 Clients=[]
 nick_names=[]
 
-def Handle(conn,nick):
+def Handle(client,nick_name):
     while True:
         try:
-            msg=conn.recv(1024).decode()
-            if msg:
-                Broadcast(msg) 
-        except:
-            Clients.remove(conn)
-            nick_names.remove(nick)
-            print(f"Error: {nick} disconnected")
+            message=client.recv(1024).decode()
+            if message:
+                print(f"{nick_name}: {message}")
+                # Broadcast(message) 
+                Broadcast(f"{nick_name}: {message}") 
+        except Exception as e:
+            # Clients.remove(client)
+            # nick_names.remove(nick_name)
+
+            index = Clients.index(client)
+            Clients.remove(client)
+            nick = nick_names.pop(index)
+
+            print(f"Error: {nick} disconnected \nError in Handle is : {e}")
             Broadcast(F'{nick} : Left the chat room')
-            conn.close()
+            client.close()
             break
 
 def Broadcast(msg):
@@ -29,26 +36,46 @@ def Broadcast(msg):
         try:
             client.send(msg.encode())
         except:
+            print(f"Error: {client} disconnected")
             Clients.remove(client)
 
 
 def Receive():
     while True:
-        conn,add=sock.accept()
-        print(f"New connection from {add}")
+        try:
+            conn,add=sock.accept()
+            print(f"New connection from {add}")
+            if conn and add:
+                conn.send('NICK'.encode())
+                nick_name=conn.recv(1024).decode()
 
-        conn.send('NICK'.encode())
-        nick_name=conn.recv(1024).decode()
+                Clients.append(conn)
+                nick_names.append(nick_name)
 
-        Clients.append(conn)
-        nick_names.append(nick_name)
+                print(f"Nickname of client is {nick_name}")
+                Broadcast(F"{nick_name} : join in chat room")
 
-        print(f"Nickname of client is {nick_name}")
-        Broadcast(F"{nick_name} : join in chat room")
+                thread=threading.Thread(target=Handle,args=(conn,nick_name))
+                thread.start()
+        except Exception as e:
+            print(f"Error in Receive data {e}")
 
-        thread=threading.Thread(target=Handle,args=(conn,nick_name))
-        thread.start()
+# def Receive():
+#     while True:
+#         conn,add=sock.accept()
+#         print(f"New connection from {add}")
 
+#         conn.send('NICK'.encode())
+#         nick_name=conn.recv(1024).decode()
+
+#         Clients.append(conn)
+#         nick_names.append(nick_name)
+
+#         print(f"Nickname of client is {nick_name}")
+#         Broadcast(F"{nick_name} : join in chat room")
+
+#         thread=threading.Thread(target=Handle,args=(conn,nick_name))
+#         thread.start()
 
 print("Server is running...")
 Receive()

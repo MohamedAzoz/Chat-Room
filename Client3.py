@@ -15,7 +15,7 @@ except:
 
 
 thread_Receive(Receive,nickname)
-thread_Write(Write,nickname)
+thread_Write(Write)
 
 
 # import threading
