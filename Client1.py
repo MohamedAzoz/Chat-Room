@@ -11,9 +11,17 @@ except:
     print("Unable to connect to the server.")
     exit()
 
+# connection()
 
 thread_Receive(Receive,nickname)
 thread_Write(Write)
+
+
+
+
+
+
+
 
 
 # import threading
