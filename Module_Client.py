@@ -20,7 +20,6 @@ def Receive(nickname):
             break
 
 
-# def Write(nickname):
 def Write():
     while True:
         try:
@@ -29,7 +28,6 @@ def Write():
                 sock.close()
                 print("Disconnected from chat.")
                 break
-            # msg =  nickname+" : "+msg
             sock.send(msg.encode())
         except Exception as e:
             print(f"Error in sending message : {e}")

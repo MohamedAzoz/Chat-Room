@@ -16,7 +16,6 @@ def Handle(client,nick_name):
             message=client.recv(1024).decode()
             if message:
                 print(f"{nick_name}: {message}")
-                # Broadcast(message) 
                 Broadcast(f"{nick_name}: {message}") 
         except Exception as e:
             # Clients.remove(client)
