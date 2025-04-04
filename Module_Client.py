@@ -6,6 +6,13 @@ host = socket.gethostname()
 port = 13579
 server_add = (host, port)
 
+# def connection():
+#     try:
+#         sock.connect(server_add)
+#     except:
+#         print("Unable to connect to the server.")
+#         exit()
+
 def Receive(nickname):
     while True:
         try:
