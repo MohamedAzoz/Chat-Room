@@ -22,8 +22,8 @@ def Handle(client,nick_name):
             # nick_names.remove(nick_name)
 
             index = Clients.index(client)
-            Clients.remove(client)
             nick = nick_names.pop(index)
+            Clients.remove(client)
 
             print(f"Error: {nick} disconnected \nError in Handle is : {e}")
             Broadcast(F'{nick} : Left the chat room')

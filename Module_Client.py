@@ -23,7 +23,7 @@ def Receive(nickname):
 def Write():
     while True:
         try:
-            msg = input("==> ")
+            msg = input("--> ")
             if msg.lower() == "exit":  
                 sock.close()
                 print("Disconnected from chat.")
