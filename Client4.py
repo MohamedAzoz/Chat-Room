@@ -2,14 +2,8 @@ from Module_Client import *
 
 nickname = input("Enter Your Nickname: ")
 
-sock = sock
-server_add = server_add
+connection()
 
-try:
-    sock.connect(server_add)
-except:
-    print("Unable to connect to the server.")
-    exit()
 
 
 thread_Receive(Receive,nickname)
