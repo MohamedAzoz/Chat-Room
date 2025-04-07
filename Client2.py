@@ -25,7 +25,7 @@ thread_Write(Write)
 #     print("Unable to connect to the server.")
 #     exit()
 
-# def Receive():
+# def Receive(nickname):
 #     while True:
 #         try:
 #             msg = sock.recv(1024).decode()
@@ -33,23 +33,23 @@ thread_Write(Write)
 #                 sock.send(nickname.encode())
 #             else:
 #                 print(msg)
-#         except:
-#             print("Connection lost. Exiting...")
+#         except Exception as e:
+#             print(f"Error in Receiving the message : {e}" )
 #             sock.close()
 #             break
+
 
 # def Write():
 #     while True:
 #         try:
-#             msg = input("")
-#             if msg.lower() == "exit":  
+#             msg = input("==> ")
+#             if msg.lower() == "exit" or msg.lower() == "end":  
 #                 sock.close()
 #                 print("Disconnected from chat.")
 #                 break
-#             msg = nickname+" : "+msg
 #             sock.send(msg.encode())
-#         except:
-#             print("Error in sending message.")
+#         except Exception as e:
+#             print(f"Error in sending message : {e}")
 #             sock.close()
 #             break
 

@@ -30,8 +30,8 @@ def Receive(nickname):
 def Write():
     while True:
         try:
-            msg = input("--> ")
-            if msg.lower() == "exit":  
+            msg = input("==> ")
+            if msg.lower() == "exit" or msg.lower() == "end":  
                 sock.close()
                 print("Disconnected from chat.")
                 break
