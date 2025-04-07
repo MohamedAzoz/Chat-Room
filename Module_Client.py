@@ -30,7 +30,7 @@ def Receive(nickname):
 def Write():
     while True:
         try:
-            msg = input("==> ")
+            msg = input("")
             if msg.lower() == "exit" or msg.lower() == "end":  
                 sock.close()
                 print("Disconnected from chat.")
@@ -43,12 +43,12 @@ def Write():
 
 
 def thread_Receive(Function_Name,Args):
-    thread = threading.Thread(target=Function_Name, daemon=True,args=(Args,))  
+    thread = threading.Thread(target=Function_Name,args=(Args,))  
     thread.start()
 
 
 def thread_Write(Function_Name):
-    thread = threading.Thread(target=Function_Name, daemon=True)  
+    thread = threading.Thread(target=Function_Name)  
     thread.start()
     thread.join()
 
