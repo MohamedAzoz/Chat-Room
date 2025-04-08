@@ -18,15 +18,10 @@ def Handle(client,nick_name):
                 print(f"{nick_name}: {message}")
                 Broadcast(f"{nick_name}: {message}") 
         except Exception as e:
-            # Clients.remove(client)
-            # nick_names.remove(nick_name)
-
-            index = Clients.index(client)
-            nick = nick_names.pop(index)
             Clients.remove(client)
-
-            print(f"Error: {nick} disconnected \nError in Handle is : {e}")
-            Broadcast(F'{nick} : Left the chat room')
+            nick_names.remove(nick_name)
+            print(f"Error: {nick_names} disconnected \nError in Handle is : {e}")
+            Broadcast(F'{nick_names} : Left the chat room')
             client.close()
             break
 
@@ -59,22 +54,6 @@ def Receive():
         except Exception as e:
             print(f"Error in Receive data {e}")
 
-# def Receive():
-#     while True:
-#         conn,add=sock.accept()
-#         print(f"New connection from {add}")
-
-#         conn.send('NICK'.encode())
-#         nick_name=conn.recv(1024).decode()
-
-#         Clients.append(conn)
-#         nick_names.append(nick_name)
-
-#         print(f"Nickname of client is {nick_name}")
-#         Broadcast(F"{nick_name} : join in chat room")
-
-#         thread=threading.Thread(target=Handle,args=(conn,nick_name))
-#         thread.start()
 
 print("Server is running...")
 Receive()
