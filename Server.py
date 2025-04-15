@@ -10,6 +10,27 @@ sock.listen()
 Clients=[]
 nick_names=[]
 
+def Receive():
+    while True:
+        try:
+            conn,add=sock.accept()
+            print(f"New connection from {add}")
+
+            conn.send('NICK'.encode())
+            nick_name=conn.recv(1024).decode()
+
+            Clients.append(conn)
+            nick_names.append(nick_name)
+
+            print(f"Nickname of client is {nick_name}")
+            Broadcast(F"{nick_name} : join in chat room")
+
+            thread=threading.Thread(target=Handle,args=(conn,nick_name))
+            thread.start()
+        except:
+            print("Error in Receive data")
+
+
 def Handle(client,nick_name):
     while True:
         try:
@@ -17,10 +38,10 @@ def Handle(client,nick_name):
             if message:
                 print(f"{nick_name}: {message}")
                 Broadcast(f"{nick_name}: {message}") 
-        except Exception as e:
+        except:
             Clients.remove(client)
             nick_names.remove(nick_name)
-            print(f"Error: {nick_names} disconnected \nError in Handle is : {e}")
+            print(f"Error: {nick_names} disconnected ")
             Broadcast(F'{nick_names} : Left the chat room')
             client.close()
             break
@@ -33,26 +54,6 @@ def Broadcast(msg):
             print(f"Error: {client} disconnected")
             Clients.remove(client)
 
-
-def Receive():
-    while True:
-        try:
-            conn,add=sock.accept()
-            print(f"New connection from {add}")
-            if conn and add:
-                conn.send('NICK'.encode())
-                nick_name=conn.recv(1024).decode()
-
-                Clients.append(conn)
-                nick_names.append(nick_name)
-
-                print(f"Nickname of client is {nick_name}")
-                Broadcast(F"{nick_name} : join in chat room")
-
-                thread=threading.Thread(target=Handle,args=(conn,nick_name))
-                thread.start()
-        except Exception as e:
-            print(f"Error in Receive data {e}")
 
 
 print("Server is running...")

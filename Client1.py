@@ -6,8 +6,8 @@ nickname = input("Enter Your Nickname: ")
 connection()
 
 
-thread_Receive(Receive,nickname)
-thread_Write(Write)
+thread_Receive(nickname)
+thread_Write()
 
 
 
