@@ -51,7 +51,6 @@ def Broadcast(msg):
         try:
             client.send(msg.encode())
         except:
-            print(f"Error: {client} disconnected")
             Clients.remove(client)
 
 
