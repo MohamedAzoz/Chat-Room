@@ -10,7 +10,7 @@ sock.listen()
 Clients=[]
 nick_names=[]
 
-def Receive():
+def Handle():
     while True:
         try:
             conn,add=sock.accept()
@@ -25,13 +25,13 @@ def Receive():
             print(f"Nickname of client is {nick_name}")
             Broadcast(F"{nick_name} : join in chat room")
 
-            thread=threading.Thread(target=Handle,args=(conn,nick_name))
+            thread=threading.Thread(target=Receive,args=(conn,nick_name))
             thread.start()
         except:
             print("Error in Receive data")
 
 
-def Handle(client,nick_name):
+def Receive(client,nick_name):
     while True:
         try:
             message=client.recv(1024).decode()
@@ -56,4 +56,4 @@ def Broadcast(msg):
 
 
 print("Server is running...")
-Receive()
+Handle()
